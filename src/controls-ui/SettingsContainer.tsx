@@ -29,7 +29,6 @@ import React, {
     useCallback,
 } from 'react';
 
-import { GRADIENTS } from '../color-util';
 import { hzToMel, melToHz } from '../math-util';
 import { Scale } from '../spectrogram';
 import { RenderParameters } from '../spectrogram-render';
@@ -262,19 +261,7 @@ function generateSettingsContainer(): [SettingsContainer, (playState: PlayState)
             },
             [onRenderParametersUpdate]
         );
-        const onGradientChange = useCallback(
-            (event: ChangeEvent<{ name?: string | undefined; value: unknown }>) => {
-                if (typeof event.target.value === 'string') {
-                    const gradientData = GRADIENTS.find((g) => g.name === event.target.value);
-                    if (gradientData !== undefined) {
-                        defaultParameters.gradient = gradientData.name;
-                        onRenderParametersUpdate({ gradient: gradientData.gradient });
-                    }
-                }
-            },
-            [onRenderParametersUpdate]
-        );
-
+       
         useEffect(() => {
             setPlayStateExport = setPlayState;
         }, [setPlayState]);
@@ -287,11 +274,6 @@ function generateSettingsContainer(): [SettingsContainer, (playState: PlayState)
             onMinFreqChange(hzToMel(defaultParameters.minFrequency));
             onMaxFreqChange(hzToMel(defaultParameters.maxFrequency));
             onRenderParametersUpdate({ scale: defaultParameters.scale });
-
-            const gradientData = GRADIENTS.find((g) => g.name === defaultParameters.gradient);
-            if (gradientData !== undefined) {
-                onRenderParametersUpdate({ gradient: gradientData.gradient });
-            }
         }, []);
 
         const content = (
@@ -393,33 +375,7 @@ function generateSettingsContainer(): [SettingsContainer, (playState: PlayState)
                     defaultValue={hzToMel(defaultParameters.maxFrequency)}
                     onChange={onMaxFreqChange}
                 />
-                <FormControl className={classes.select}>
-                    <InputLabel id="scale-select-label">Frequency scale</InputLabel>
-                    <Select
-                        labelId="scale-select-label"
-                        id="scale-select"
-                        defaultValue={defaultParameters.scale}
-                        onChange={onScaleChange}
-                    >
-                        <MenuItem value="mel">Mel</MenuItem>
-                        <MenuItem value="linear">Linear</MenuItem>
-                    </Select>
-                </FormControl>
-                <FormControl className={classes.select}>
-                    <InputLabel id="gradient-select-label">Colour</InputLabel>
-                    <Select
-                        labelId="gradient-select-label"
-                        id="gradient-select"
-                        defaultValue={defaultParameters.gradient}
-                        onChange={onGradientChange}
-                    >
-                        {GRADIENTS.map((g) => (
-                            <MenuItem value={g.name} key={g.name}>
-                                {g.name}
-                            </MenuItem>
-                        ))}
-                    </Select>
-                </FormControl>
+                
                 <Button
                     fullWidth
                     variant="text"
