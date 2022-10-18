@@ -5,7 +5,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --mode=production",
-    "start": "webpack serve --mode=development",
+    "start": "webpack serve --mode=development --host 0.0.0.0",
     "prettier": "prettier --write 'src/**/*.{ts,tsx}'",
     "type-check": "tsc"
   },
@@ -48,7 +48,7 @@
     "webpack-glsl-minify": "^1.4.2",
     "worker-loader": "^3.0.8"
   },
-  "engine" : {
+  "engines" : {
     "node": "^16.18.0",
     "npm": "^8.19.0"
     }

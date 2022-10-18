@@ -14,7 +14,9 @@ module.exports = {
     devServer: {
         contentBase: path.join(__dirname, 'dist'),
         compress: true,
-        port: 9000,
+        inline: true,
+        port: process.env.PORT || 8080,
+        disableHostCheck: true, // Invalid Host header
     },
     module: {
         rules: [
